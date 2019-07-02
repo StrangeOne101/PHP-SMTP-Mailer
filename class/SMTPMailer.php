@@ -34,13 +34,13 @@ Class SMTPMailer
     public function __construct($server=false, $port=false, $secure=false)
     {
         // Setup basic configuration
-        if (file_exists('conf/config_smtp.php')) {
-            include 'conf/config_smtp.php';
-            $this->server   = $cfg_server;
-            $this->port     = $cfg_port;
-            $this->secure   = $cfg_secure;
-            $this->username = $cfg_username;
-            $this->password = $cfg_password;
+        if (file_exists('config/smtp.ini')) {
+            $parsed_ini = parse_ini_file('config/smtp.ini');
+            $this->server   = $parsed_ini["server"]    ?: $this->server;
+            $this->port     = $parsed_ini["port"]      ?: $this->port;
+            $this->secure   = $parsed_ini["secure"]    ?: $this->secure;
+            $this->username = $parsed_ini["username"]  ?: $this->username;
+            $this->password = $parsed_ini["password"]  ?: $this->password;
         }
         if ($server !== false) {
             $this->server   = $server;
